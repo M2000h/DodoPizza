@@ -27,7 +27,7 @@ def get_few_defects(defects_list=[]):
     counter = 0
     for row in parser.data:
         defects = row[parser.FIRST_DEFECT:]
-        comp_array = ['0'] * (parser.NUMBER_OF_COLUMNS - p.FIRST_DEFECT)
+        comp_array = ['0'] * (parser.NUMBER_OF_COLUMNS - parser.FIRST_DEFECT)
         for defect in defects_list:
             comp_array[defect - parser.FIRST_DEFECT] = '1'
         if defects == comp_array:
@@ -39,6 +39,6 @@ def get_few_defects(defects_list=[]):
     print(counter)
 
 
-get_few_defects([14, 15])
+get_few_defects([])
 
-get_defects()
+# get_defects()
