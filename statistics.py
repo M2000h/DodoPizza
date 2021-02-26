@@ -39,6 +39,6 @@ def get_few_defects(defects_list=[]):
     print(counter)
 
 
-get_few_defects([])
+get_few_defects([22])
 
 # get_defects()

@@ -85,6 +85,39 @@ class Parser:
                 except:
                     print(f'fail for {url}')
 
+    def save_by_defects_or(self, folder, pic_num, defects_list=[], start=0, end=1000):
+        """
+        Сохранение изображений
+        :param folder: Название папки
+        :param defects_list: Список присутствующий дефектов
+        :param pic_num: Номер фотографии
+        :param start: Ограничение по количеству фотографий
+        :param end: Ограничение по количеству фотографий
+        :return:
+        """
+        counter = -1
+        for row in self.data:
+            defects = row  # [self.FIRST_DEFECT:]
+            arg = False
+            for defect in defects_list:
+                if defects[defect] == '0':
+                    arg = True
+            if arg:
+                continue
+            path_to_folder = os.path.join('data', folder)
+
+            if not os.path.exists(path_to_folder):
+                os.makedirs(path_to_folder)
+            counter += 1
+            if counter < start or end <= counter:
+                continue
+            try:
+                url = row[2 + pic_num]
+                img = self.url_to_image(url)
+                im_name = os.path.join(path_to_folder, url[url.rfind('/') + 1:])
+                cv2.imwrite(im_name, img)
+            except:
+                print(f'fail for {url}')
 
     @staticmethod
     def url_to_image(url):
@@ -105,8 +138,8 @@ class Parser:
 
 if __name__ == '__main__':
     parser = Parser('data/controlling_ml.csv')
-    parser.save_by_defects(folder='test1', defects_list=[15], pic_num=2, start=0, end=5)  # pic_nums=[2, 3],
-    parser.save_by_defects(folder='test2', defects_list=[15], pic_num=2, start=5, end=10)  # pic_nums=[2, 3],
+    # parser.save_by_defects(folder='test1', defects_list=[15], pic_num=2, start=0, end=5)  # pic_nums=[2, 3],
+    parser.save_by_defects_or(folder='test2', defects_list=[22], pic_num=1, start=0, end=10)  # pic_nums=[2, 3],
     # parser.save_by_defects(folder='test/white_bottom', defects_list=[15], pic_num=2, start=200)  # pic_nums=[2, 3],
     # parser.save_by_defects(folder='black_bottom', defects_list=[17], pic_num=2)  # pic_nums=[2, 3],
     # parser.save_by_defects(folder='white_side', defects_list=[14], pic_num=2)  # pic_nums=[2, 3],
